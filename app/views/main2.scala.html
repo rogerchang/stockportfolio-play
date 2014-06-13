@@ -1,0 +1,37 @@
+@(connected: Option[String])(content: Html)
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>StockPortfolio Pricing</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("lib/bootstrap/css/bootstrap.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+    </head>
+    <body>
+
+        <div class="topbar">
+            <div class="fill">
+                <div class="container">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+
+            <div class="content">
+            @content
+            </div>
+
+            <footer>
+                <p>
+                    <a href="http://www.playframework.com">www.playframework.com</a>
+                </p>
+            </footer>
+
+        </div>
+
+    </body>
+</html>

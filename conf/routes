@@ -1,0 +1,18 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET        /                                            controllers.Application.index
+#GET        /room                                        controllers.Application.chatRoom(username: Option[String])
+#GET        /room/chat                                   controllers.Application.chat(username)
+GET        /stockportfolio                              controllers.Application.stockPortfolio
+#GET        /stockportfolio/price                        controllers.Application.pricePortfolio(portfolio: String)
+GET        /socket                                      controllers.Application.socket
+#GET        /assets/javascripts/chatroom.js              controllers.Application.chatRoomJs(username: String)
+GET        /assets/javascripts/stockportfolio.js        controllers.Application.stockPortfolioJs
+
+# Map static resources from the /public folder to the /assets URL path
+GET        /assets/*file                                controllers.Assets.at(path="/public", file)
+
+    

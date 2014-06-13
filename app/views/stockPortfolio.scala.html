@@ -1,0 +1,136 @@
+<html>
+    <head>
+        <title>Stock Portfolio Pricing</title>
+        <link href="@routes.Assets.at("lib/bootstrap.min.css")" rel="stylesheet">
+        <style>
+        svg {
+        font: 10px sans-serif;
+        }
+
+        .axis path, .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+        }
+        .x.axis line {
+        shape-rendering : auto ;
+        }
+
+        .line {
+        fill : none ;
+        stroke : #000 ;
+        stroke-width : 1.5 px ;
+        }
+        </style>
+        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("lib/d3/d3.min.js")" type="text/javascript"></script>
+    </head>
+    <body ng-app="stockportfolio">
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="../" class="navbar-brand">Bootswatch</a>
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar-main">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Themes <span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="themes">
+                                <li><a href="../default/">Default</a></li>
+                                <li class="divider"></li>
+                                <li><a href="../amelia/">Amelia</a></li>
+                                <li><a href="../cerulean/">Cerulean</a></li>
+                                <li><a href="../cosmo/">Cosmo</a></li>
+                                <li><a href="../cyborg/">Cyborg</a></li>
+                                <li><a href="../darkly/">Darkly</a></li>
+                                <li><a href="../flatly/">Flatly</a></li>
+                                <li><a href="../journal/">Journal</a></li>
+                                <li><a href="../lumen/">Lumen</a></li>
+                                <li><a href="../readable/">Readable</a></li>
+                                <li><a href="../simplex/">Simplex</a></li>
+                                <li><a href="../slate/">Slate</a></li>
+                                <li><a href="../spacelab/">Spacelab</a></li>
+                                <li><a href="../superhero/">Superhero</a></li>
+                                <li><a href="../united/">United</a></li>
+                                <li><a href="../yeti/">Yeti</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="../help/">Help</a>
+                        </li>
+                        <li>
+                            <a href="http://news.bootswatch.com">Blog</a>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Download <span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="download">
+                                <li><a href="./bootstrap.min.css">bootstrap.min.css</a></li>
+                                <li><a href="./bootstrap.css">bootstrap.css</a></li>
+                                <li class="divider"></li>
+                                <li><a href="./variables.less">variables.less</a></li>
+                                <li><a href="./bootswatch.less">bootswatch.less</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="http://builtwithbootstrap.com/" target="_blank">Built With Bootstrap</a></li>
+                        <li><a href="https://wrapbootstrap.com/?ref=bsw" target="_blank">WrapBootstrap</a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container">
+
+            <div class="page-header" id="banner">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h1>Flatly</h1>
+                        <p class="lead">Flat and modern</p>
+
+                        <div id="price">price</div>
+
+                        <div id="stockportfolio">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <ul class="list-unstyled">
+                            <li><a href="https://github.com/thomaspark/bootswatch/">GitHub</a></li>
+                            <li><a href="../help/#api">API</a></li>
+                        </ul>
+                        <p>Made by <a href="http://thomaspark.me" rel="nofollow">Thomas Park</a>. Contact him at <a href="mailto:thomas@@bootswatch.com">thomas@@bootswatch.com</a>.</p>
+                        <p>Code released under the <a href="https://github.com/thomaspark/bootswatch/blob/gh-pages/LICENSE">MIT License</a>.</p>
+                        <p>Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="http://fortawesome.github.io/Font-Awesome/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="http://www.google.com/webfonts" rel="nofollow">Google</a>.</p>
+
+                    </div>
+                </div>
+
+            </footer>
+
+
+        </div>
+
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="@routes.Assets.at("lib/angular.min.js")"></script>
+        <script src="@routes.Assets.at("lib/ui-bootstrap-tpls-0.10.0.js")"></script>
+        <script src="@routes.Assets.at("javascripts/bootswatch.js")"></script>
+        <script src="@routes.Assets.at("javascripts/app.js")"></script>
+        <script src="@routes.Assets.at("javascripts/controllers.js")"></script>
+        <script type="text/javascript" charset="utf-8" src="@routes.Application.stockPortfolioJs()"></script>
+    </body>
+</html>
