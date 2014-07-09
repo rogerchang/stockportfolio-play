@@ -149,6 +149,7 @@ class StockDirectoryRouterActor extends Actor  {
     // Simply forward all messages to the consistently hashed router, which in turn will forward the
     //    message to the appropriate StockDirectoryActor
     case m => {
+      println("Forwarding message " + m + " to the cache")
       cache forward m
     }
   }

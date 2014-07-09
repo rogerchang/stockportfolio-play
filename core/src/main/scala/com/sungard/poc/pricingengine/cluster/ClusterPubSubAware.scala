@@ -5,31 +5,59 @@ import akka.contrib.pattern.DistributedPubSubMediator.{Send, Put, Publish, Subsc
 import akka.contrib.pattern.DistributedPubSubExtension
 
 /**
- * Created by admin on 5/1/14.
+ * Mixin trait for actors that want to use the Akka cluster distributed pub sub mechanism
  */
 trait ClusterPubSubAware {
   this : Actor =>
-    var mediator : ActorRef = null//= DistributedPubSubExtension(context.system).mediator
+  // The Akka distributed pub sub mediator actor (the built in mediator actor that coordinates
+  ///   either publish or subscribe requests)
+  var mediator : ActorRef = null
 
-    def initializePubSub() = {
-      println("Requesting DistributedPubSubMediator to start")
-      mediator = DistributedPubSubExtension(context.system).mediator
-    }
+  /**
+   * Initialize the Akka distributed pub sub mediator actor
+   */
+  def initializePubSub() = {
+    mediator = DistributedPubSubExtension(context.system).mediator
+  }
 
-    def subscribe(topic : String) = {
-      mediator ! Subscribe(topic, self)
-    }
+  /**
+   * Subscribe to a particular topic with the Akka distributed pub sub mechanism
+   *
+   * @param topic
+   */
+  def subscribe(topic : String) = {
+    mediator ! Subscribe(topic, self)
+  }
 
-    def publish(topic : String, msg : Any) = {
-      mediator ! Publish(topic, msg)
-    }
+  /**
+   * Publish a particular message on a topic using the Akka distributed pub sub mechanism
+   *
+   * @param topic
+   * @param msg
+   */
+  def publish(topic : String, msg : Any) = {
+    mediator ! Publish(topic, msg)
+  }
 
-    def register() = {
-      mediator ! Put(self)
-    }
+  /**
+   * Registers this actor with the Akka distributed pub sub mechanism.  If you register multiple
+   *   copies of a given actor with Akka distributed pub sub, you get a kind of cheap routing,
+   *   in which a message delivered to the path of the actor is randomly routed to one of the
+   *   copies of the actor which registered.   This is an alternative mechanism exposed in
+   *   Akka distributed pub sub to that provided by subscribing and publishing to topics.
+   */
+  def register() = {
+    mediator ! Put(self)
+  }
 
-    def send(actorPath : String, msg : Any) = {
-       //val mediator = DistributedPubSubExtension(context.system).mediator
-       mediator ! Send(actorPath, msg, true)
-    }
+  /**
+   * Send a message to one of the actors registered with the Akka distributed pub sub mechanism
+   *    at the specified actor path.
+   *
+   * @param actorPath
+   * @param msg
+   */
+  def send(actorPath : String, msg : Any) = {
+    mediator ! Send(actorPath, msg, true)
+  }
 }

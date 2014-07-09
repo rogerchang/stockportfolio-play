@@ -4,13 +4,10 @@ import play.api._
 import play.api.mvc._
 import com.test._
 import play.api.libs.json.{JsValue, Json}
-import actors.{StockPortfolioWebSocketActor, Price}
+import actors.{StockPortfolioValue, StockPortfolioWebSocketActor}
 import play.api.mvc.WebSocket.FrameFormatter
 import play.api.Play.current
-import play.libs.Akka
-import akka.actor.ActorSelection
-import com.sungard.poc.pricingengine.actors.ServiceLookupActor.GetStockPortfolioValuer
-import com.sungard.poc.pricingengine.actors.ServiceLookupActor
+import com.sungard.poc.pricingengine.portfolio.StockPortfolio
 
 object Application extends Controller {
 
@@ -31,19 +28,13 @@ object Application extends Controller {
     Ok(views.js.stockPortfolio(request))
   }
 
-  implicit val pricingFormat = Json.format[Price]
-  implicit val pricingFrameFormatter = FrameFormatter.jsonFrame[Price]
+  implicit val inEventFormat = Json.format[StockPortfolio]
+  implicit val outEventFormat = Json.format[StockPortfolioValue]
 
-  def socket = WebSocket.acceptWithActor[String, Price] { request => out =>
+  implicit val inEventFrameFormatter = FrameFormatter.jsonFrame[StockPortfolio]
+  implicit val outEventFrameFormatter = FrameFormatter.jsonFrame[StockPortfolioValue]
+
+  def socket = WebSocket.acceptWithActor[StockPortfolio, StockPortfolioValue] { request => out =>
     StockPortfolioWebSocketActor.props(out)
   }
-
-  /*
-  def pricePortfolio(portfolio: String) = WebSocket.async[JsValue] { request =>
-    val system = Akka.system()
-    ServiceLookupActor.createServiceLookupActor(system)
-    var serviceLookupActor: ActorSelection = ServiceLookupActor.getServiceLookupActor(system)
-    serviceLookupActor ! GetStockPortfolioValuer
-  }
-  */
 }

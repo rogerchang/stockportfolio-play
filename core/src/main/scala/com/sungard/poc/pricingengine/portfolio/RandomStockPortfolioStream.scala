@@ -45,13 +45,13 @@ class RandomStockPortfolioStream(minStocks : Integer, maxStocks : Integer,
               selectedStocks  = randomizedStocks.take(portfolioSize)
               // Choose a random double for each of our stock tickers, that will be used to determine which percentage
               //   of the portfolio is represented by each stock
-              rawProportionVals <- Gen.listOfN(portfolioSize, Gen.choose(0.0, 1.0))
+              rawProportionVals <- Gen.listOfN(portfolioSize, Gen.choose(0.0, 100.0))
               // Normalize those random values so that they add up to 1 and therefore give random proportions
               //   of each stock in the portfolio
-              proportions = rawProportionVals.map(_ / rawProportionVals.sum)
+              proportions = rawProportionVals.map(_.toString)
               // Choose a random value for the number of shares in the portfolio
               numShares <- Gen.choose(minShares, maxShares)
-            } yield (StockPortfolio(selectedStocks.zip(proportions).toList, numShares))
+            } yield (StockPortfolio(selectedStocks.zip(proportions).toMap))
 
   /**
    * Just generate a random size for the portfolio

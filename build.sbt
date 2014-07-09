@@ -1,4 +1,4 @@
-name := """stockportfolio-webapp"""
+name := """stockportfolio-play"""
 
 version := "1.0-SNAPSHOT"
 

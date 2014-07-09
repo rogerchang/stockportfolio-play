@@ -4,50 +4,60 @@ import com.typesafe.config.{Config, ConfigFactory}
 import akka.actor.{Props, ActorSystem}
 
 /**
- * Created by admin on 4/30/14.
+ * Various methods that help with interacting with Akka clustering
  */
 object ClusterUtils {
-     final val CLUSTER_CONFIG = "cluster"
+  // Default Akka clustering config file
+  final val CLUSTER_CONFIG = "cluster"
 
-    def actorOf(systemName : String, paramz : ClusterNodeParameters, props : Props) = {
-        ActorSystem(systemName, config(paramz)).actorOf(props)
-     }
+  /**
+   * Helpers for returning an actor on a cluster node
+   *
+   * @param systemName  The name of the actor system
+   * @param paramz The configuration parameters of the cluster node
+   * @param props
+   * @return
+   */
+  def actorOf(systemName : String, paramz : ClusterNodeParameters, props : Props) = {
+    ActorSystem(systemName, config(paramz)).actorOf(props)
+  }
 
-     def config(paramz : ClusterNodeParameters = null) = {
-       var clusterConfig = ConfigFactory.empty()
+  def config(paramz : ClusterNodeParameters = null) = {
+    var clusterConfig = ConfigFactory.empty()
 
-       if (paramz != null && (paramz.host != null && paramz.port != null)) {
-          clusterConfig = ConfigFactory.parseString( s"""
+    // Setup Akka remote actor hosts and ports
+    if (paramz != null && (paramz.host != null && paramz.port != null)) {
+      clusterConfig = ConfigFactory.parseString( s"""
                                         akka.remote.netty.tcp.port= ${paramz.port}
                                         akka.remote.netty.tcp.host= "${paramz.host}"
                                """)
-       }
+    }
 
-       if (paramz.role != null) {
-          clusterConfig = clusterConfig.withFallback(ConfigFactory.parseString("akka.cluster.roles = [\"" + paramz.role + "\"]"))
-       }
+    // If initialized, set the rolename associated with this cluster node
+    if (paramz.role != null) {
+      clusterConfig = clusterConfig.withFallback(ConfigFactory.parseString("akka.cluster.roles = [\"" + paramz.role + "\"]"))
+    }
 
-       if (paramz.seedHostPorts != null) {
-           clusterConfig = clusterConfig.withFallback(ConfigFactory.parseString(s"akka.cluster.seed-nodes = " +
-                   paramz.seedURLConfig
-              ));
+    // If initialized, set a list of host:port seed nodes that are used as contact points to
+    //    join the cluster
+    if (paramz.seedHostPorts != null) {
+      clusterConfig = clusterConfig.withFallback(ConfigFactory.parseString(s"akka.cluster.seed-nodes = " +
+        paramz.seedURLConfig
+      ));
 
-            println("Setting akka.cluster.seed-nodes to " + paramz.seedURLConfig)
-       }
+    }
 
-       //clusterConfig = clusterConfig.withFallback(ConfigFactory.load(CLUSTER_CONFIG));
+    // If a configuration file is specified, use it to configure the cluster node
+    if (paramz.configName != null) {
+      clusterConfig = clusterConfig.withFallback(ConfigFactory.load(paramz.configName))
+    } else {
+      clusterConfig = clusterConfig.withFallback(ConfigFactory.load(CLUSTER_CONFIG));
+    }
 
-       if (paramz.configName != null) {
-          clusterConfig = clusterConfig.withFallback(ConfigFactory.load(paramz.configName))
-       } else {
-         clusterConfig = clusterConfig.withFallback(ConfigFactory.load(CLUSTER_CONFIG));
-       }
-       //println("%%%%% Cluster config = " + clusterConfig.entrySet() + "%%%%%%%%")
+    clusterConfig
+  }
 
-       clusterConfig
-     }
-
-     def system(paramz : ClusterNodeParameters) = {
-          ActorSystem(paramz.clusterName, config(paramz))
-     }
+  def system(paramz : ClusterNodeParameters) = {
+    ActorSystem(paramz.clusterName, config(paramz))
+  }
 }

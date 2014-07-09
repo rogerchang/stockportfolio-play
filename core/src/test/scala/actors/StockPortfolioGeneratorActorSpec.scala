@@ -34,7 +34,6 @@ class StockPortfolioGeneratorActorSpec extends TestKit(ActorSystem("stockPortfol
                 case _ => fail("Unexpected message")
              }
 
-             assert(rcvdPortfolio.totalShares > 0)
              assert(rcvdPortfolio.portfolioElements.size > 0)
 
          }

@@ -45,7 +45,7 @@ class StockPortfolioValuationActorSpec extends TestKit(ActorSystem("stockPortfol
   "Stock portfolio valuation actor" should {
     "value a multi stock portfolio with correct interactions" in {
         val stockPortfolioValuationActor = makeActor()
-        val testPortfolio = StockPortfolio(List(("IBM", 0.4), ("AAPL", 0.6)), 100)
+        val testPortfolio = StockPortfolio(Map("IBM" -> "40", "AAPL" -> "60"))
         stockPortfolioValuationActor !  GetPortfolioValuation(testPortfolio)
 
         val ibmPricer = system.actorOf(TestPricer.props("IBM", 40.0))

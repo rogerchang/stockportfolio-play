@@ -72,7 +72,7 @@ class StockPricingEndToEndSpec extends TestKit(ActorSystem("StockPricingEndToEnd
       var serviceLookupActor : ActorSelection = ServiceLookupActor.getServiceLookupActor(system)
       serviceLookupActor !  GetStockPriceStreamer
       val stockPriceStreamerActor = expectMsgType[StockPriceStreamerReturned].stockPriceStreamer
-      val testPortfolio = StockPortfolio(List(("IBM", 0.4), ("AAPL", 0.6)), 100)
+      val testPortfolio = StockPortfolio(Map("IBM" -> "40", "AAPL" -> "60"))
       stockPriceStreamerActor ! RegisterPricingStream(testActor, testPortfolio)
       val subscription = expectMsgType[PricingEventSubscription]
 

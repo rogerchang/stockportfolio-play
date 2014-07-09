@@ -28,7 +28,7 @@ with WordSpecLike with Matchers with ImplicitSender {
   "Stock data retriever actor" should {
     "retrieve the expected StockData" in {
       val pricingStreamActor = createPricingStreamActor
-      val testPortfolio = StockPortfolio(List(("IBM", 0.4), ("AAPL", 0.6)), 100)
+      val testPortfolio = StockPortfolio(Map("IBM" -> "40", "AAPL" -> "60"))
       val prices = List(30.0, 20.0, 15.0, 25.0, 22.5)
       pricingStreamActor ! RegisterPricingStream(testActor, testPortfolio)
       var subscription: PricingEventSubscription = null;

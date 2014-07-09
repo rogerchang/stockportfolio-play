@@ -24,14 +24,11 @@ class RandomStockPortfolioStreamSpec extends FlatSpec {
            case Some(actualPortfolio) => {
                  assert(! actualPortfolio.portfolioElements.isEmpty)
                  actualPortfolio.portfolioElements.map {
-                   case (stock, fraction) =>  {
+                   case (stock, shares) =>  {
                         assert(stockList.stocks.contains(stock))
-                        assert(fraction <= 1.0)
+                        assert(shares.toInt >= 0.0)
                    }
                  }
-                 val totalFraction = actualPortfolio.portfolioElements.map(_._2).sum
-                 assert(totalFraction == 1.0)
-                 assert(actualPortfolio.totalShares > 0)
            }
            case _ => fail("Did not find a portfolio")
        }
