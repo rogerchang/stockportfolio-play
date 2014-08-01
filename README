@@ -1,4 +1,12 @@
-This is your new Play application
-=================================
+To start it up, go to the project root and run:
+./activator run
 
-This file will be packaged with your application, when using `activator dist`.
+Once the play app starts up, go to
+http://localhost:9000/stockportfolio
+
+The app is hardcoded to send YHOO:1 when you go to that page.
+You can update the portfolio via the websocket by opening the browser console and sending something like this:
+ws.send(JSON.stringify({"portfolioElements":{"YHOO":"1", "GRPN":"5"}}))
+This will update your portfolio to 1 Yahoo share and 5 Groupon shares
+
+Note that this is still a work in progress so there are still bugs.
