@@ -10,7 +10,7 @@ $(function() {
     var i = 0
 
     var stockprice = 0;
-    var portfolioElements = {"portfolioElements":{"YHOO":"1", "MSFT":"2"}}
+    var portfolioElements = {"portfolioElements":{"YHOO":"1"}}
 
     /*
      var n = 243,
@@ -96,7 +96,7 @@ $(function() {
     var receiveEvent = function(event) {
         var stockportfolio = JSON.parse(event.data)
 
-        $("#price").html(stockportfolio.value)
+        $("#price").html("Price: " + stockportfolio.value)
         $(".highcharts-title").html(JSON.stringify(stockportfolio.stockportfolio.portfolioElements))
 
         //update the graph
